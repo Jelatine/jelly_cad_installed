@@ -25,7 +25,7 @@ jobs:
           git clone https://github.com/Microsoft/vcpkg.git
           ls
           cd vcpkg
-          git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
+          git checkout 2e3bd19a3ff73e687aaf5e153520a1430d388e5d
           ./bootstrap-vcpkg.sh
           echo "${{github.workspace}}/vcpkg" >> "$GITHUB_PATH"
   
