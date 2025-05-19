@@ -2,6 +2,7 @@
   "dependencies": [
     "lua",
     "sol2",
-    "libxcrypt"
+    "opencascade",
+    "qt5"
   ]
 }
