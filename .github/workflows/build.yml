@@ -46,11 +46,9 @@ jobs:
           zip -r vcpkg_installed_${{ matrix.os }}.zip vcpkg_installed/
 
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v1
+        with:
+          files: vcpkg_installed_${{ matrix.os }}.zip
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: vcpkg_installed_${{ matrix.os }}.zip
-          asset_name: vcpkg_installed_${{ matrix.os }}
-          asset_content_type: application/zip
