@@ -17,13 +17,16 @@ jobs:
 
       - name: Setup vcpkg
         run: |
+          cd ${{github.workspace}}
           git clone https://github.com/Microsoft/vcpkg.git
+          ls
           cd vcpkg
           git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
           ./bootstrap-vcpkg.sh
+          echo "${{github.workspace}}/vcpkg" >> "$GITHUB_PATH"
 
       - name: Install dependencies
-        run: ./${{github.workspace}}/vcpkg/vcpkg install
+        run: vcpkg install
 
       - name: Create Release Package
         if: matrix.os == 'windows-latest'
