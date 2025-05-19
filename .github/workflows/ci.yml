@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        build_type: [Debug, Release]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+  
+      - name: Setup vcpkg
+        run: |
+          cd ${{github.workspace}}
+          git clone https://github.com/Microsoft/vcpkg.git
+          ls
+          cd vcpkg
+          git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
+          ./bootstrap-vcpkg.sh
+          echo "${{github.workspace}}/vcpkg" >> "$GITHUB_PATH"
+  
+      - name: Install dependencies
+        run: vcpkg install

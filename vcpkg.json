@@ -1,6 +1,7 @@
 {
   "dependencies": [
     "lua",
-    "sol2"
+    "sol2",
+    "libxcrypt"
   ]
 }
