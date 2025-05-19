@@ -17,6 +17,7 @@ jobs:
         with:
           vcpkgGitCommitId: '566f9496b7e00ee0cc00aca0ab90493d122d148a'
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          doNotCache: false
 
       - name: Install dependencies
         run: vcpkg install
