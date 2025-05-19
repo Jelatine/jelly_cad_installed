@@ -16,14 +16,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup vcpkg
-        uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgGitCommitId: '566f9496b7e00ee0cc00aca0ab90493d122d148a'
-          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          doNotCache: false
+        run: |
+          git clone https://github.com/Microsoft/vcpkg.git -b 566f9496b7e00ee0cc00aca0ab90493d122d148a
+          ./vcpkg/bootstrap-vcpkg.sh
 
       - name: Install dependencies
-        run: vcpkg install
+        run: ./${{github.workspace}}/vcpkg/vcpkg install
 
       - name: Create Release Package
         if: matrix.os == 'windows-latest'
