@@ -54,4 +54,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: vcpkg_installed_${{ matrix.os }}.zip
           asset_name: vcpkg_installed_${{ matrix.os }}
-          asset_content_type: application/zip 
+          asset_content_type: application/zip
