@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
@@ -27,42 +27,26 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           $version = $env:GITHUB_REF -replace 'refs/tags/v', ''
-          Compress-Archive -Path ${{github.workspace}}/vcpkg_installed -DestinationPath vcpkg_installed_windows.zip
+          Compress-Archive -Path ${{github.workspace}}/vcpkg_installed -DestinationPath vcpkg_installed_${{ matrix.os }}.zip
 
       - name: Create Release Package (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           version=${GITHUB_REF#refs/tags/v}
-          zip -r vcpkg_installed_linux.zip vcpkg_installed/
+          zip -r vcpkg_installed_${{ matrix.os }}.zip vcpkg_installed/
 
       - name: Create Release Package (macOS)
         if: matrix.os == 'macos-latest'
         run: |
           version=${GITHUB_REF#refs/tags/v}
-          zip -r vcpkg_installed_macos.zip vcpkg_installed/
+          zip -r vcpkg_installed_${{ matrix.os }}.zip vcpkg_installed/
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: vcpkg_installed_${{ matrix.os }}
-          path: vcpkg_installed_*.zip
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: artifacts
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            artifacts/vcpkg_installed_windows-latest/vcpkg_installed_windows.zip
-            artifacts/vcpkg_installed_ubuntu-latest/vcpkg_installed_linux.zip
-            artifacts/vcpkg_installed_macos-latest/vcpkg_installed_macos.zip
-          generate_release_notes: true
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: vcpkg_installed_${{ matrix.os }}.zip
+          asset_name: vcpkg_installed_${{ matrix.os }}
+          asset_content_type: application/zip 
