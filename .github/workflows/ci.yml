@@ -10,7 +10,7 @@ jobs:
     - name: Setup Vcpkg
       uses: lukka/run-vcpkg@v11
       with:
-        vcpkgJsonGlob: ${{ github.workspace }}/'vcpkg.json'
-        vcpkgConfigurationJsonGlob: ${{ github.workspace }}/'vcpkg-configuration.json'
+        vcpkgJsonGlob: '**/vcpkg.json'
+        vcpkgConfigurationJsonGlob: '**/vcpkg-configuration.json'
         runVcpkgInstall: true
  
