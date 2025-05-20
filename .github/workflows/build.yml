@@ -27,6 +27,17 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get update && sudo apt-get install -y libx11-dev libgl1-mesa-dev mesa-common-dev autoconf automake libtool pkg-config m4 libltdl-dev libxtst-dev
 
+      - name: Install Qt dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libxcb-icccm4-dev libxcb-xlib0-dev \
+            libgbm-dev libegl1-mesa-dev \
+            libxkbcommon-dev libxkbcommon-x11-dev \
+            libcups2-dev libsqlite3-dev unixodbc-dev \
+            freetds-dev libtslib-dev libopenvg-dev
+
       - name: Install dependencies
         run: vcpkg install
 
