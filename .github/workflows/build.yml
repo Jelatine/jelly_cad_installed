@@ -29,14 +29,7 @@ jobs:
 
       - name: Install Qt dependencies
         if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libxcb-icccm4-dev libxcb-xlib0-dev \
-            libgbm-dev libegl1-mesa-dev \
-            libxkbcommon-dev libxkbcommon-x11-dev \
-            libcups2-dev libsqlite3-dev unixodbc-dev \
-            freetds-dev libtslib-dev libopenvg-dev
+        run: sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
 
       - name: Install dependencies
         run: vcpkg install
