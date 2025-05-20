@@ -13,4 +13,5 @@ jobs:
         vcpkgJsonGlob: '**/vcpkg.json'
         vcpkgConfigurationJsonGlob: '**/vcpkg-configuration.json'
         runVcpkgInstall: true
+        doNotCache: false
  

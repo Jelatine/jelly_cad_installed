@@ -2,7 +2,6 @@
   "dependencies": [
     "lua",
     "sol2",
-    "qt5",
-    "opencascade"
+    "orocos-kdl"
   ]
 }
