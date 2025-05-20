@@ -2,7 +2,7 @@
   "dependencies": [
     "lua",
     "sol2",
-    "opencascade",
-    "qt5"
+    "qt5",
+    "opencascade"
   ]
 }
