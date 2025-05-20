@@ -15,14 +15,30 @@ jobs:
           path: ${{github.workspace}}/vcpkg_installed
           key: vcpkg_installed
 
-    - name: Setup Vcpkg
+          
+
+    - name: Setup vcpkg
       if: steps.vcpkg-installed.outputs.cache-hit != 'true'
-      uses: lukka/run-vcpkg@v11
-      with:
-        vcpkgJsonGlob: '**/vcpkg.json'
-        vcpkgConfigurationJsonGlob: '**/vcpkg-configuration.json'
-        runVcpkgInstall: true
-        doNotCache: false
+      run: |
+        cd ${{github.workspace}}
+        git clone https://github.com/Microsoft/vcpkg.git
+        cd vcpkg
+        git checkout 9a718185e570b2366fda05eb65f1fc826fbf1cef
+        ./bootstrap-vcpkg.sh
+        echo "${{github.workspace}}/vcpkg" >> "$GITHUB_PATH"
+
+    - name: Install dependencies
+      if: steps.vcpkg-installed.outputs.cache-hit != 'true'
+      run: vcpkg install
+
+    # - name: Setup Vcpkg
+    #   if: steps.vcpkg-installed.outputs.cache-hit != 'true'
+    #   uses: lukka/run-vcpkg@v11
+    #   with:
+    #     vcpkgJsonGlob: '**/vcpkg.json'
+    #     vcpkgConfigurationJsonGlob: '**/vcpkg-configuration.json'
+    #     runVcpkgInstall: true
+    #     doNotCache: false
 
         
     - name: List
