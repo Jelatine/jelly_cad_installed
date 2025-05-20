@@ -12,8 +12,8 @@ jobs:
       id: vcpkg-installed
       uses: actions/cache@v3
       with:
-          path: vcpkg-installed
-          key: ${{github.workspace}}/vcpkg_installed
+          path: vcpkg_installed
+          key: vcpkg_installed
 
     - name: Setup Vcpkg
       if: steps.vcpkg-installed.outputs.cache-hit != 'true'
