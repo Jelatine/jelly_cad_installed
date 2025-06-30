@@ -6,30 +6,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Cache vcpkg installed
-      id: vcpkg-installed
-      uses: actions/cache@v3
+      id: vcpkg-566f9496b7
+      uses: actions/cache@v4
       with:
-          path: ${{github.workspace}}/vcpkg_installed
-          key: vcpkg_installed
+          path: vcpkg
+          key: vcpkg-566f9496b7
 
           
 
     - name: Setup vcpkg
-      if: steps.vcpkg-installed.outputs.cache-hit != 'true'
+      if: steps.vcpkg-566f9496b7.outputs.cache-hit != 'true'
       run: |
         cd ${{github.workspace}}
         git clone https://github.com/Microsoft/vcpkg.git
         cd vcpkg
-        git checkout 9a718185e570b2366fda05eb65f1fc826fbf1cef
+        git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
         ./bootstrap-vcpkg.sh
         echo "${{github.workspace}}/vcpkg" >> "$GITHUB_PATH"
 
     - name: Install dependencies
-      if: steps.vcpkg-installed.outputs.cache-hit != 'true'
-      run: vcpkg install
+      if: steps.vcpkg-566f9496b7.outputs.cache-hit != 'true'
+      run: vcpkg install lua sol2
 
     # - name: Setup Vcpkg
     #   if: steps.vcpkg-installed.outputs.cache-hit != 'true'
