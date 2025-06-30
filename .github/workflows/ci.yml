@@ -31,6 +31,9 @@ jobs:
       if: steps.vcpkg-566f9496b7.outputs.cache-hit != 'true'
       run: vcpkg install lua sol2
 
+
+    - name: Use vcpkg
+      run: vcpkg integrate install
     # - name: Setup Vcpkg
     #   if: steps.vcpkg-installed.outputs.cache-hit != 'true'
     #   uses: lukka/run-vcpkg@v11
