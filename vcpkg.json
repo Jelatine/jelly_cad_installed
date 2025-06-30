@@ -1,7 +1,0 @@
-{
-  "dependencies": [
-    "lua",
-    "sol2",
-    "orocos-kdl"
-  ]
-}
