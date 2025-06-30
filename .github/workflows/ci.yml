@@ -12,8 +12,8 @@ jobs:
       id: vcpkg-566f9496b7
       uses: actions/cache@v4
       with:
-          path: vcpkg
-          key: vcpkg-566f9496b7
+          path: ${{github.workspace}}/vcpkg
+          key: vcpkg_566f9496b7
 
           
 
