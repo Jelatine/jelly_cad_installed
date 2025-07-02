@@ -19,7 +19,9 @@ jobs:
         sudo apt-get install -y libxtst-dev pkg-config autoconf libtool bison libglu1-mesa-dev freeglut3-dev
 
     - name: Vcpkg installed
-      run: vcpkg install qt5
+      run: |
+        export VCPKG_MAX_CONCURRENCY=1
+        vcpkg install qt5
 
     # - name: Cache vcpkg installed
     #   id: vcpkg-566f9496b7
