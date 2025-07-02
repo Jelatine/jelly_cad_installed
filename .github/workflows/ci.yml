@@ -31,7 +31,7 @@ jobs:
 
     - name: Vcpkg installed
       run: |
-        # export VCPKG_MAX_CONCURRENCY=1
+        export VCPKG_MAX_CONCURRENCY=1
         vcpkg install qt5
 
     # - name: Cache vcpkg installed
