@@ -1,48 +1,83 @@
-name: Build with Vcpkg
+name: Build and Release
 
-on: [push]
+on:
+  # 当推送标签时触发
+  push:
+    tags:
+      - 'v*'
+  # 也可以手动触发
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag'
+        required: true
+        default: 'v1.0.0'
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v4
+    - name: 检出代码
+      uses: actions/checkout@v4
 
-    - name: Cache vcpkg installed
-      id: vcpkg-566f9496b7
-      uses: actions/cache@v4
+    - name: 创建Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          path: ${{github.workspace}}/vcpkg
-          key: vcpkg_566f9496b7
+        tag_name: ${{ github.ref_name }}
+        release_name: Release ${{ github.ref_name }}
+        body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+        draft: false
+        prerelease: false
+
+# name: Build with Vcpkg
+
+# on: [push]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v4
+
+#     - name: Cache vcpkg installed
+#       id: vcpkg-566f9496b7
+#       uses: actions/cache@v4
+#       with:
+#           path: ${{github.workspace}}/vcpkg
+#           key: vcpkg_566f9496b7
 
           
 
-    - name: Setup vcpkg
-      if: steps.vcpkg-566f9496b7.outputs.cache-hit != 'true'
-      run: |
-        cd ${{github.workspace}}
-        git clone https://github.com/Microsoft/vcpkg.git
-        cd vcpkg
-        git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
-        ./bootstrap-vcpkg.sh
-        echo "${{github.workspace}}/vcpkg" >> "$GITHUB_PATH"
+#     - name: Setup vcpkg
+#       if: steps.vcpkg-566f9496b7.outputs.cache-hit != 'true'
+#       run: |
+#         cd ${{github.workspace}}
+#         git clone https://github.com/Microsoft/vcpkg.git
+#         cd vcpkg
+#         git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
+#         ./bootstrap-vcpkg.sh
+#         echo "${{github.workspace}}/vcpkg" >> "$GITHUB_PATH"
 
-    - name: Install dependencies
-      if: steps.vcpkg-566f9496b7.outputs.cache-hit != 'true'
-      run: vcpkg install lua sol2
+#     - name: Install dependencies
+#       if: steps.vcpkg-566f9496b7.outputs.cache-hit != 'true'
+#       run: vcpkg install lua sol2
 
 
-    - name: Use vcpkg
-      run: vcpkg integrate install
-    # - name: Setup Vcpkg
-    #   if: steps.vcpkg-installed.outputs.cache-hit != 'true'
-    #   uses: lukka/run-vcpkg@v11
-    #   with:
-    #     vcpkgJsonGlob: '**/vcpkg.json'
-    #     vcpkgConfigurationJsonGlob: '**/vcpkg-configuration.json'
-    #     runVcpkgInstall: true
-    #     doNotCache: false
+#     - name: Use vcpkg
+#       run: vcpkg integrate install
+#     # - name: Setup Vcpkg
+#     #   if: steps.vcpkg-installed.outputs.cache-hit != 'true'
+#     #   uses: lukka/run-vcpkg@v11
+#     #   with:
+#     #     vcpkgJsonGlob: '**/vcpkg.json'
+#     #     vcpkgConfigurationJsonGlob: '**/vcpkg-configuration.json'
+#     #     runVcpkgInstall: true
+#     #     doNotCache: false
 
         
-    - name: List
-      run: ls ${{github.workspace}}
+#     - name: List
+#       run: ls ${{github.workspace}}
