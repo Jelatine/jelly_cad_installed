@@ -11,7 +11,10 @@ jobs:
     - name: 安装依赖
       run: |
         sudo apt-get update
+        # -- libxcrypt requires libltdl-dev from the system package manager
         sudo apt-get install -y libltdl-dev
+        # ERROR: Feature 'xcb' was enabled, but the pre-condition 'features.thread && libs.xcb && tests.xcb_syslibs && features.xkbcommon-x11' failed.
+        sudo apt-get install -y libxcb*
 
     - name: Vcpkg installed
       run: vcpkg install qt5
