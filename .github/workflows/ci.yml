@@ -15,6 +15,8 @@ jobs:
         sudo apt-get install -y libltdl-dev
         # ERROR: Feature 'xcb' was enabled, but the pre-condition 'features.thread && libs.xcb && tests.xcb_syslibs && features.xkbcommon-x11' failed.
         sudo apt-get install -y libxcb*
+        sudo apt-get install -y libx11* libgl1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+        sudo apt-get install -y libxtst-dev pkg-config autoconf libtool bison libglu1-mesa-dev freeglut3-dev
 
     - name: Vcpkg installed
       run: vcpkg install qt5
