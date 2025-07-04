@@ -39,7 +39,6 @@ jobs:
         git clone https://github.com/Microsoft/vcpkg.git
         cd vcpkg 
         git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
-        ./bootstrap-vcpkg.sh
 
     - name: bootstrap vcpkg(ubuntu)
       shell: bash
@@ -49,7 +48,7 @@ jobs:
     - name: bootstrap vcpkg(windows)
       shell: bash
       if: ${{ matrix.os=='windows-latest' }}
-      run: ${{github.workspace}}/vcpkg/bootstrap-vcpkg.bash
+      run: ${{github.workspace}}/vcpkg/bootstrap-vcpkg.bat
         
         
     - name: Vcpkg installed
