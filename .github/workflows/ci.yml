@@ -30,12 +30,13 @@ jobs:
     #     sudo apt-get install -y libxtst-dev pkg-config autoconf libtool bison libglu1-mesa-dev freeglut3-dev
 
     - name: Setup vcpkg
+      shell: bash
       run: |
         cd ${{github.workspace}}
         git clone https://github.com/Microsoft/vcpkg.git
         cd vcpkg 
         git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
-        ./bootstrap-vcpkg.bat
+        ./bootstrap-vcpkg.sh
         
     - name: Vcpkg installed
       run: |
