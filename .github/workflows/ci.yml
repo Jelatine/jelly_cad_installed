@@ -32,7 +32,7 @@ jobs:
     - name: Setup vcpkg
       run: |
         cd ${{github.workspace}}
-        git clone https://github.com/Microsoft/vcpkg.git -b 566f9496b7e00ee0cc00aca0ab90493d122d148a
+        git clone -b 566f9496b7e00ee0cc00aca0ab90493d122d148a https://github.com/Microsoft/vcpkg.git
         ./vcpkg/bootstrap-vcpkg
         
     - name: Vcpkg installed
