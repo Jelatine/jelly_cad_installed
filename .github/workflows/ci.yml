@@ -35,7 +35,7 @@ jobs:
         git clone https://github.com/Microsoft/vcpkg.git
         cd vcpkg 
         git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
-        ./bootstrap-vcpkg
+        ./bootstrap-vcpkg.sh
         
     - name: Vcpkg installed
       run: |
