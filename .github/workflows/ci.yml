@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
     
@@ -35,13 +35,29 @@ jobs:
         git clone https://github.com/Microsoft/vcpkg.git
         cd vcpkg 
         git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
-        ./bootstrap-vcpkg.sh
+        ./bootstrap-vcpkg.bat
         
     - name: Vcpkg installed
       run: |
         # export VCPKG_MAX_CONCURRENCY=1
         # ${{github.workspace}}/vcpkg/vcpkg install qt5-base
-        ${{github.workspace}}/vcpkg/vcpkg list
+        ${{github.workspace}}/vcpkg/vcpkg install lua
+
+    - name: Clean Vcpkg
+      shell: bash
+      run: |
+        if [ -d "${{github.workspace}}/vcpkg/buildtrees" ]; then 
+          rm -rf "${{github.workspace}}/vcpkg/buildtrees"
+          echo "删除目录: ${{github.workspace}}/vcpkg/buildtrees"
+        fi
+        if [ -d "${{github.workspace}}/vcpkg/downloads" ]; then 
+          rm -rf "${{github.workspace}}/vcpkg/downloads"
+          echo "删除目录: ${{github.workspace}}/vcpkg/downloads"
+        fi
+        if [ -d "${{github.workspace}}/vcpkg/packages" ]; then 
+          rm -rf "${{github.workspace}}/vcpkg/packages"
+          echo "删除目录: ${{github.workspace}}/vcpkg/packages"
+        fi
 
     # - name: Cache vcpkg installed
     #   id: vcpkg-566f9496b7
