@@ -11,26 +11,28 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    # - name: Free Disk Space (Ubuntu)
-    #   uses: jlumbroso/free-disk-space@main
-    #   with:
-    #     tool-cache: false
-    #     android: true
-    #     dotnet: true
-    #     haskell: true
-    #     large-packages: true
-    #     docker-images: true
-    #     swap-storage: true
+    - name: Free Disk Space (Ubuntu)
+      if: ${{ matrix.os=='ubuntu-latest' }}
+      uses: jlumbroso/free-disk-space@main
+      with:
+        tool-cache: false
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
         
-    # - name: 安装依赖
-    #   run: |
-    #     sudo apt-get update
-    #     # -- libxcrypt requires libltdl-dev from the system package manager
-    #     sudo apt-get install -y libltdl-dev
-    #     # ERROR: Feature 'xcb' was enabled, but the pre-condition 'features.thread && libs.xcb && tests.xcb_syslibs && features.xkbcommon-x11' failed.
-    #     sudo apt-get install -y libxcb*
-    #     sudo apt-get install -y libx11* libgl1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
-    #     sudo apt-get install -y libxtst-dev pkg-config autoconf libtool bison libglu1-mesa-dev freeglut3-dev
+    - name: 安装依赖
+      if: ${{ matrix.os=='ubuntu-latest' }}
+      run: |
+        sudo apt-get update
+        # -- libxcrypt requires libltdl-dev from the system package manager
+        sudo apt-get install -y libltdl-dev
+        # ERROR: Feature 'xcb' was enabled, but the pre-condition 'features.thread && libs.xcb && tests.xcb_syslibs && features.xkbcommon-x11' failed.
+        sudo apt-get install -y libxcb*
+        sudo apt-get install -y libx11* libgl1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+        sudo apt-get install -y libxtst-dev pkg-config autoconf libtool bison libglu1-mesa-dev freeglut3-dev
 
     - name: Setup vcpkg
       run: |
