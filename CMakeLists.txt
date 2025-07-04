@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.14)
+project(MyTest)
+if(MSVC)
+add_compile_options("/source-charset:utf-8")
+add_compile_options("/execution-charset:utf-8")
+endif()
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+find_package(Qt5 REQUIRED COMPONENTS Widgets)
+
+add_executable(MyTest main.cpp)
+target_link_libraries(MyTest PRIVATE Qt5::Widgets)
