@@ -8,41 +8,38 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Free Disk Space (Ubuntu)
-      uses: jlumbroso/free-disk-space@main
-      with:
-        tool-cache: false
-        android: true
-        dotnet: true
-        haskell: true
-        large-packages: true
-        docker-images: true
-        swap-storage: true
+    # - name: Free Disk Space (Ubuntu)
+    #   uses: jlumbroso/free-disk-space@main
+    #   with:
+    #     tool-cache: false
+    #     android: true
+    #     dotnet: true
+    #     haskell: true
+    #     large-packages: true
+    #     docker-images: true
+    #     swap-storage: true
         
-    - name: 安装依赖
-      run: |
-        sudo apt-get update
-        # -- libxcrypt requires libltdl-dev from the system package manager
-        sudo apt-get install -y libltdl-dev
-        # ERROR: Feature 'xcb' was enabled, but the pre-condition 'features.thread && libs.xcb && tests.xcb_syslibs && features.xkbcommon-x11' failed.
-        sudo apt-get install -y libxcb*
-        sudo apt-get install -y libx11* libgl1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
-        sudo apt-get install -y libxtst-dev pkg-config autoconf libtool bison libglu1-mesa-dev freeglut3-dev
+    # - name: 安装依赖
+    #   run: |
+    #     sudo apt-get update
+    #     # -- libxcrypt requires libltdl-dev from the system package manager
+    #     sudo apt-get install -y libltdl-dev
+    #     # ERROR: Feature 'xcb' was enabled, but the pre-condition 'features.thread && libs.xcb && tests.xcb_syslibs && features.xkbcommon-x11' failed.
+    #     sudo apt-get install -y libxcb*
+    #     sudo apt-get install -y libx11* libgl1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+    #     sudo apt-get install -y libxtst-dev pkg-config autoconf libtool bison libglu1-mesa-dev freeglut3-dev
 
     - name: Setup vcpkg
-      if: steps.vcpkg-566f9496b7.outputs.cache-hit != 'true'
       run: |
         cd ${{github.workspace}}
-        git clone https://github.com/Microsoft/vcpkg.git
-        cd vcpkg
-        git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
-        ./bootstrap-vcpkg.sh
-        echo "${{github.workspace}}/vcpkg" >> "$GITHUB_PATH"
+        git clone https://github.com/Microsoft/vcpkg.git -b 566f9496b7e00ee0cc00aca0ab90493d122d148a
+        ./vcpkg/bootstrap-vcpkg
         
     - name: Vcpkg installed
       run: |
         # export VCPKG_MAX_CONCURRENCY=1
-        ${{github.workspace}}/vcpkg/vcpkg install qt5-base
+        # ${{github.workspace}}/vcpkg/vcpkg install qt5-base
+        ${{github.workspace}}/vcpkg/vcpkg list
 
     # - name: Cache vcpkg installed
     #   id: vcpkg-566f9496b7
