@@ -4,7 +4,10 @@ on: [push]
 
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
     
@@ -37,8 +40,20 @@ jobs:
         cd vcpkg 
         git checkout 566f9496b7e00ee0cc00aca0ab90493d122d148a
         ./bootstrap-vcpkg.sh
+
+    - name: bootstrap vcpkg(ubuntu)
+      shell: bash
+      if: ${{ matrix.os=='ubuntu-latest' }}
+      run: ${{github.workspace}}/vcpkg/bootstrap-vcpkg.sh
+      
+    - name: bootstrap vcpkg(windows)
+      shell: bash
+      if: ${{ matrix.os=='windows-latest' }}
+      run: ${{github.workspace}}/vcpkg/bootstrap-vcpkg.bash
+        
         
     - name: Vcpkg installed
+      shell: bash
       run: |
         # export VCPKG_MAX_CONCURRENCY=1
         # ${{github.workspace}}/vcpkg/vcpkg install qt5-base
